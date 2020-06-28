@@ -18,6 +18,7 @@
     overflow-y: auto; 
     height: 100%; 
     min-width: 250px;
+    padding: 8px;
     box-sizing: border-box;
     border-width: 1px;
     border-style: solid;
@@ -29,5 +30,7 @@
     overflow-y: auto; 
     height: 100%;
     width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
     background-color: rgba(223, 223, 223, 0.07);
 }
