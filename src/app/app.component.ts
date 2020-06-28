@@ -8,7 +8,6 @@ import pptxgen from "pptxgenjs";
 })
 export class AppComponent {
   pageTitle = 'slides-generator';
-  slidesText: string = 'blah';
 
   onClick(){
     var pptx = new pptxgen();

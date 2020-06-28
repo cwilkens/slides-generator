@@ -1,16 +1,21 @@
-div#slide {
-    width: 100%;
-    padding-bottom: 56.25%;
-    background: gray; /** for visibility, update later **/
+.label {
+    display: inline;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#slideText {
+    display: inline;
 }
 
 div.slideWrapper {
     padding: 10px;
-    background: white;
+    /* background: white; */
     box-sizing: border-box;
-    resize: both;
-    border: 1px dashed;
-    overflow: auto;
     max-width: 100%;
-    height: calc(100vh - 16px);
+    max-height: 100%;
+}
+
+#editingSlide {
+    border: 1px solid #000000;
 }
