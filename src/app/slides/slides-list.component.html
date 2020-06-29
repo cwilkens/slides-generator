@@ -1,5 +1,17 @@
 <textarea id="slidesText" [(ngModel)]='slidesText'>
 </textarea>
-<h4>slide text: {{slideText}}</h4>
 <button (click)='onClick()' type="button">Create Slides</button>
-<p>slides-list works!</p>
+<button style="display:inline; margin-left:8px" (click)='addSlide()' type="button">Add Slide</button>
+
+<!-- todo: single source this with slide-editor -->
+<svg *ngFor="let slide of slides" class="slide"
+    max-width="100%" max-height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 1920 1080" perserveAspectRatio="xMidYMid meet">
+    <style>
+        .header { font: normal 96px sans-serif; fill: rgb(240, 240, 240); }
+    </style>
+    <rect x="0" y="800" width="1920" height="200" style="fill:rgb(77, 77, 77);stroke-width:0;" />
+    <line x1="0" y1="830" x2="1920" y2="830" style="stroke-width:2;stroke:rgb(131, 131, 131);" />
+    <line x1="190" y1="800" x2="190" y2="1000" style="stroke-width:2;stroke:rgb(131, 131, 131);" />
+    <text x="220" y="940" class="header">{{slide.slideText}}</text>
+</svg>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ISlide } from './slides';
+import { SlideService } from './slide.service';
 
 @Component({
   selector: 'slides-list',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./slides-list.component.css']
 })
 export class SlidesListComponent implements OnInit {
+  slides: ISlide[] = [];
 
-  constructor() { }
+  constructor(private slideService: SlideService) { }
 
   ngOnInit() {
+    this.updateSlides();
   }
 
+  updateSlides() {
+    this.slides = this.slideService.getSlides();
+  }
+
+  addSlide() {
+    this.slideService.addSlide();
+    this.updateSlides();
+  }
 }
