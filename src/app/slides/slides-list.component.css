@@ -3,7 +3,7 @@
     width: 100%;
     height: 8em;
     box-sizing: border-box;
-    /* resize: vertical; */
+    resize: vertical;
     background: lightblue;
 }
 

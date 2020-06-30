@@ -16,11 +16,11 @@ export class SlidesListComponent implements OnInit {
     this.updateSlides();
   }
 
-  updateSlides() {
+  updateSlides(): void {
     this.slides = this.slideService.getSlides();
   }
 
-  addSlide() {
+  addSlide(): void {
     this.slideService.addSlide();
     this.updateSlides();
   }
