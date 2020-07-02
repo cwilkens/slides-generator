@@ -8,7 +8,7 @@ import { SlideService } from './slide.service';
   styleUrls: ['./slide-editor.component.css']
 })
 export class SlideEditorComponent implements OnInit {
-  currentSlide: ISlide;
+  currentSlideId: symbol;
   
   _slideText: string;
   get slideText(): string {
@@ -16,7 +16,7 @@ export class SlideEditorComponent implements OnInit {
   }
   set slideText(value: string) {
       this._slideText = value;
-      this.slideService.setSlideText(this.currentSlide.id, value);
+      this.slideService.setSlideText(this.currentSlideId, value);
       // handle that slide not existing
   }
 
@@ -24,11 +24,11 @@ export class SlideEditorComponent implements OnInit {
   }
 
   ngOnInit() {
-    // add a slide because there's currently none
-    this.slideService.addSlide();
-    this.currentSlide = this.slideService.getSlide(0);
-    // switch to some sort of service observable for when the selected slide to edit changes?
+    // get current slide Subject from service
+    this.slideService.getCurrentSlideIdSubject().subscribe(id => {
+      this.currentSlideId = id;
+      this._slideText = this.slideService.getSlide(id).slideText;
+    });
     this.slideText = "demo text";
   }
-
 }

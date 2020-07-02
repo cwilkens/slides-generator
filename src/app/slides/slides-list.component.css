@@ -8,8 +8,14 @@
 }
 
 .slide {
-    /* todo: fix slight width-drift with each new slide from ngFor */
     margin-top: 6px;
     box-sizing: border-box;
+    max-width: 100%;
     border: 1px solid #000000;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+}
+
+.slide:hover {
+    border: 1px solid #3030F9;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,200,0.5);
 }

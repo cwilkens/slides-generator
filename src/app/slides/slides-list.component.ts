@@ -21,7 +21,8 @@ export class SlidesListComponent implements OnInit {
   }
 
   addSlide(): void {
-    this.slideService.addSlide();
+    var newSlide = this.slideService.addSlide();
+    this.slideService.setCurrentSlide(newSlide.id);
     this.updateSlides();
   }
 }
