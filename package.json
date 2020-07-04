@@ -22,6 +22,8 @@
     "@angular/router": "~8.2.14",
     "@babel/compat-data": "^7.8.0",
     "angular-cli-ghpages": "^0.6.2",
+    "diff": "^4.0.2",
+    "ngx-dropzone": "^2.2.2",
     "pptxgenjs": "^3.2.1",
     "rxjs": "^6.4.0",
     "tslib": "^1.10.0",

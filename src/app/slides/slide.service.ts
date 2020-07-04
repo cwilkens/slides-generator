@@ -53,11 +53,19 @@ export class SlideService {
     }
 
     setSlideText(id: symbol, text: string) {
-        var index = this.slides.findIndex((value, index, obj) => value.id == id);
+        var index = this.slides.findIndex((value) => value.id == id);
         if (index == -1) {
             // deal with slide being deleted while open in editor (i.e. set on missing slide)
         }
         this.slides[index].slideText = text;
+    }
+
+    setSlideImage(id: symbol, base64image: string) {
+        var index = this.slides.findIndex((value) => value.id == id);
+        if (index == -1) {
+            // deal with slide being deleted while open in editor (i.e. set on missing slide)
+        }
+        this.slides[index].slideImage = base64image;
     }
 
     addSlide(): ISlide {
