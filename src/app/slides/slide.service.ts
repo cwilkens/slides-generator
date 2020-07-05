@@ -74,4 +74,14 @@ export class SlideService {
         } as ISlide);
         return this.slides[this.slides.length-1];
     }
+
+    insertSlide(index: number) {
+        this.slides.splice(index, 0, {
+            id: Symbol()
+        } as ISlide);
+    }
+
+    deleteSlide(index: number) {
+        this.slides.splice(index, 1);
+    }
 }
