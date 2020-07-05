@@ -4,6 +4,7 @@
 <div class="slideWrapper">
     <svg #drop id="editingSlide" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 1920 1080"
+    (paste)="onPaste($event, currentSlideId)"
     ngx-dropzone [disableClick]='true' (change)="onFileAdded($event, currentSlideId)">
         <style>
             .header { font: normal 96px sans-serif; fill: rgb(240, 240, 240); }

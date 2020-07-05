@@ -34,7 +34,29 @@ export class SlideEditorComponent implements OnInit {
     this.slideText = "demo text";
   }
 
-  onFileAdded(event, currentSlideId) {
+  onPaste(event: any, currentSlideId: symbol) {
+    const items = event.clipboardData.items;
+    var file = null;
+
+    for (const item of items) {
+      if (item.type.indexOf('image') === 0) {
+        file = item.getAsFile();
+      }
+    }
+
+    // load image if there is a pasted image
+    if (file !== null) {
+      this.readFile(file).then(fileContents => {
+        this.slideService.setSlideImage(currentSlideId, fileContents.toString());
+        if (this.currentSlideId == currentSlideId) {
+          this.slideImage = fileContents.toString();
+        }
+      });
+    }
+  }
+
+
+  onFileAdded(event: any, currentSlideId: symbol) {
     this.readFile(event.addedFiles[0]).then(fileContents => {
       this.slideService.setSlideImage(currentSlideId, fileContents.toString());
       if (this.currentSlideId == currentSlideId) {
