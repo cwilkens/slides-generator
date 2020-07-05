@@ -9,24 +9,24 @@ import { ISlide } from './slides';
 export class SlideService {
     private slides: ISlide[];
 
-    private currentSlideIdSubject: BehaviorSubject<symbol>;
+    private currentSlideSubject: BehaviorSubject<ISlide>;
     private _currentSlideId: symbol;
     get currentSlideId(): symbol {
         return this._currentSlideId;
     }
     set currentSlideId(value: symbol) {
         this._currentSlideId = value;
-        if (typeof this.currentSlideIdSubject === 'undefined') {
-            this.currentSlideIdSubject = new BehaviorSubject(this.currentSlideId);
+        var slide = this.getSlide(value);
+        if (typeof this.currentSlideSubject === 'undefined') {
+            this.currentSlideSubject = new BehaviorSubject(slide);
         } else {
-            this.currentSlideIdSubject.next(this._currentSlideId);
+            this.currentSlideSubject.next(slide);
         }
     }
 
     constructor() {
         this.slides = [];
         this.currentSlideId = this.addSlide().id;
-        this.currentSlideIdSubject = new BehaviorSubject(this.currentSlideId);
     }
 
     getSlides(): ISlide[] {
@@ -41,8 +41,8 @@ export class SlideService {
         return this.slides[index];
     }
 
-    getCurrentSlideIdSubject(): BehaviorSubject<symbol> {
-        return this.currentSlideIdSubject;
+    getCurrentSlideSubject(): BehaviorSubject<ISlide> {
+        return this.currentSlideSubject;
     }
 
     setCurrentSlide(id: symbol) {
@@ -58,6 +58,10 @@ export class SlideService {
             // deal with slide being deleted while open in editor (i.e. set on missing slide)
         }
         this.slides[index].slideText = text;
+        // update current slide if it's changed
+        if (id == this.currentSlideId) {
+            this.currentSlideId = id; // setting it again triggers the setter to update.
+        }
     }
 
     setSlideImage(id: symbol, base64image: string) {
@@ -70,14 +74,18 @@ export class SlideService {
 
     addSlide(): ISlide {
         this.slides.push({
-            id: Symbol()
+            id: Symbol(),
+            slideText: "",
+            slideImage: ""
         } as ISlide);
         return this.slides[this.slides.length-1];
     }
 
     insertSlide(index: number) {
         this.slides.splice(index, 0, {
-            id: Symbol()
+            id: Symbol(),
+            slideText: "",
+            slideImage: ""
         } as ISlide);
     }
 

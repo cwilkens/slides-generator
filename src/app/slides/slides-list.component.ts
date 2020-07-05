@@ -53,6 +53,7 @@ export class SlidesListComponent implements OnInit {
       if (index < symbolArray.length) {
         id = symbolArray[index];
       } else {
+        console.log("warning: had to add extra slide in slides-list.slidesText setter");
         id = this.slideService.addSlide().id;
       }
       this.slideService.setSlideText(id, textArray[index]);
@@ -62,8 +63,8 @@ export class SlidesListComponent implements OnInit {
   ngOnInit() {
     this.updateSlides();
     // get current slide Subject from service
-    this.slideService.getCurrentSlideIdSubject().subscribe(id => {
-      this.currentSlideId = id;
+    this.slideService.getCurrentSlideSubject().subscribe(slide => {
+      this.currentSlideId = slide.id;
     });
   }
 

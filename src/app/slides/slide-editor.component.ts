@@ -26,10 +26,10 @@ export class SlideEditorComponent implements OnInit {
 
   ngOnInit() {
     // get current slide Subject from service
-    this.slideService.getCurrentSlideIdSubject().subscribe(id => {
-      this.currentSlideId = id;
-      this._slideText = this.slideService.getSlide(id).slideText;
-      this.slideImage = this.slideService.getSlide(id).slideImage;
+    this.slideService.getCurrentSlideSubject().subscribe(slide => {
+      this.currentSlideId = slide.id;
+      this._slideText = slide.slideText;
+      this.slideImage = slide.slideImage;
     });
     this.slideText = "demo text";
   }
@@ -43,7 +43,6 @@ export class SlideEditorComponent implements OnInit {
         file = item.getAsFile();
       }
     }
-
     // load image if there is a pasted image
     if (file !== null) {
       this.readFile(file).then(fileContents => {
