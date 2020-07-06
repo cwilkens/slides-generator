@@ -90,6 +90,15 @@ export class SlideService {
     }
 
     deleteSlide(index: number) {
+        const oldId = this.slides[index].id;
         this.slides.splice(index, 1);
+        if (oldId == this.currentSlideId) {
+            if (this.slides.length > index) {
+                this.currentSlideId = this.slides[index].id;
+            }
+            else {
+                this.currentSlideId = this.slides[index-1 > 0 ? index-1 : 0].id;
+            }
+        }
     }
 }
