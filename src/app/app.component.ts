@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import pptxgen from "pptxgenjs";
 import { SlideService } from './slides/slide.service';
 
@@ -7,10 +7,19 @@ import { SlideService } from './slides/slide.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   pageTitle = 'slides-generator';
 
   constructor(private slideService: SlideService) { }
+
+  ngOnInit(): void {
+    window.addEventListener("dragover", e => {
+      e && e.preventDefault();
+    }, false);
+    window.addEventListener("drop", e => {
+      e && e.preventDefault();
+    }, false);
+  }
 
   async onExport() {
     const slides = this.slideService.getSlides();
