@@ -1,16 +1,40 @@
-<div id="container">
-  <div id="header">
-    <button id="export" (click)="onExport()">Export Slides</button>
-    <h1 id="title">
-      {{pageTitle}}
-    </h1>
+
+<nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <div class="navbar-item is-size-5"><strong>{{pageTitle}}</strong></div>
+    
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
   </div>
-  <div id="main">
-    <div id="sidebar">
-      <slides-list></slides-list>
+
+  <div class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item">
+        Home
+      </a>
+      <a class="navbar-item" href="https://github.com/cwilkens/slides-generator">
+        Documentation
+      </a>
     </div>
-    <div id="content">
-      <slide-editor></slide-editor>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <button class="button is-primary" (click)="onExport()">
+          <strong>Export Slides</strong>
+        </button>
+      </div>
     </div>
+  </div>
+</nav>
+
+<div class="columns">
+  <div id="sidebar" class="column is-one-quarter">
+    <slides-list></slides-list>
+  </div>
+  <div id="editor" class="column">
+    <slide-editor></slide-editor>
   </div>
 </div>

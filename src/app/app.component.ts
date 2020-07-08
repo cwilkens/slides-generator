@@ -8,7 +8,7 @@ import { SlideService } from './slides/slide.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  pageTitle = 'slides-generator';
+  pageTitle = 'Instant Slides';
 
   constructor(private slideService: SlideService) { }
 

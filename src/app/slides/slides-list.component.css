@@ -1,12 +1,3 @@
-#slidesText {
-    display: inline-block;
-    width: 100%;
-    height: 8em;
-    box-sizing: border-box;
-    resize: vertical;
-    background: lightblue;
-}
-
 .slide {
     margin-top: 6px;
     box-sizing: border-box;

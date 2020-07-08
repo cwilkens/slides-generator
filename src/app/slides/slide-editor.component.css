@@ -1,16 +1,4 @@
-.label {
-    display: inline;
-    margin-left: 1em;
-    margin-right: 1em;
-}
-
-#slideText {
-    display: inline;
-}
-
 div.slideWrapper {
-    padding: 10px;
-    /* background: white; */
     box-sizing: border-box;
     max-width: 100%;
     max-height: 100%;

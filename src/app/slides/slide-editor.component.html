@@ -1,6 +1,19 @@
-<button (click)="drop.showFileSelector()">Add Image</button>
-<div class="label">slide text:</div>
-<input type="text" id="slideText" [(ngModel)]='slideText'>
+<nav class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <button class="button" (click)="drop.showFileSelector()">Add Image</button>
+        </div>
+    </div>
+    <div class="level-right">
+        <div class="level-item">
+            <p class="level-item">Slide text:</p>
+        </div>
+        <div class="level-item">
+            <input class="input" type="text" id="slideText" [(ngModel)]='slideText'>
+        </div>
+    </div>
+</nav>
+
 <div class="slideWrapper">
     <svg #drop id="editingSlide" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 1920 1080"
