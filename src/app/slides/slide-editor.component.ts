@@ -31,7 +31,6 @@ export class SlideEditorComponent implements OnInit {
       this._slideText = slide.slideText;
       this.slideImage = slide.slideImage;
     });
-    this.slideText = "demo text";
   }
 
   onPaste(event: any, currentSlideId: symbol) {

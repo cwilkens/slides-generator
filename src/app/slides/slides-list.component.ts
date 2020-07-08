@@ -11,6 +11,7 @@ import * as Diff from 'diff';
 export class SlidesListComponent implements OnInit {
   slides: ISlide[] = [];
   currentSlideId: symbol;
+  placeholder: string = "Type slide titles on each line";
 
   constructor(private slideService: SlideService) { }
 
