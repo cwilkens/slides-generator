@@ -1,5 +1,3 @@
-<textarea class="textarea" placeholder="{{placeholder}}" id="slidesText" [(ngModel)]='slidesText'></textarea>
-
 <div style="padding:8px;">
     <!-- todo: single source this with slide-editor -->
     <svg *ngFor="let slide of slides" class="slide" (click)='selectSlide(slide)'
