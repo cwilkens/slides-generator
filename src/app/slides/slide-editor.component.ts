@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ApplicationRef } from '@angular/core';
 import { ISlide } from './slides';
 import { SlideService } from './slide.service';
 
@@ -21,7 +21,7 @@ export class SlideEditorComponent implements OnInit {
       // handle that slide not existing
   }
 
-  constructor(private slideService: SlideService) { 
+  constructor(private slideService: SlideService, private application: ApplicationRef) { 
   }
 
   ngOnInit() {
@@ -31,6 +31,26 @@ export class SlideEditorComponent implements OnInit {
       this._slideText = slide.slideText;
       this.slideImage = slide.slideImage;
     });
+  }
+
+  onDrop(event: any, currentSlideId: symbol) {
+    if (event.dataTransfer.items && event.dataTransfer.items[0].kind == "string") {
+      event.dataTransfer.items[0].getAsString((url: string) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('get', "https://cors-anywhere.herokuapp.com/"+url, true);
+
+        xhr.responseType = 'blob';
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        const editor = this;
+        xhr.onload = function() {
+          editor.readFile(this.response).then(fileContents => {
+            editor.slideService.setSlideImage(currentSlideId, fileContents.toString());
+            editor.application.tick();
+          });
+        };
+        xhr.send();
+      });
+    }
   }
 
   onPaste(event: any, currentSlideId: symbol) {
@@ -46,24 +66,20 @@ export class SlideEditorComponent implements OnInit {
     if (file !== null) {
       this.readFile(file).then(fileContents => {
         this.slideService.setSlideImage(currentSlideId, fileContents.toString());
-        if (this.currentSlideId == currentSlideId) {
-          this.slideImage = fileContents.toString();
-        }
       });
     }
   }
 
 
   onFileAdded(event: any, currentSlideId: symbol) {
-    this.readFile(event.addedFiles[0]).then(fileContents => {
-      this.slideService.setSlideImage(currentSlideId, fileContents.toString());
-      if (this.currentSlideId == currentSlideId) {
-        this.slideImage = fileContents.toString();
-      }
-    });
+    if (event.addedFiles.length) {
+      this.readFile(event.addedFiles[0]).then(fileContents => {
+        this.slideService.setSlideImage(currentSlideId, fileContents.toString());
+      });
+    }
   }
   
-  private async readFile(file: File): Promise<string | ArrayBuffer> {
+  private async readFile(file: File | Blob): Promise<string | ArrayBuffer> {
     return new Promise<string | ArrayBuffer>((resolve, reject) => {
       const reader = new FileReader();
   
@@ -72,7 +88,7 @@ export class SlideEditorComponent implements OnInit {
       };
   
       reader.onerror = e => {
-        console.error(`FileReader failed on file ${file.name}.`);
+        console.error(`FileReader failed on file ${file}.`);
         return reject(null);
       };
   

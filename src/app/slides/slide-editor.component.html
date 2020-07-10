@@ -17,6 +17,7 @@
 <div class="slideWrapper">
     <svg #drop id="editingSlide" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 1920 1080"
+    (drop)="onDrop($event, currentSlideId)"
     (paste)="onPaste($event, currentSlideId)"
     ngx-dropzone [disableClick]='true' (change)="onFileAdded($event, currentSlideId)">
         <text x="1920" y="0">hidden text</text>

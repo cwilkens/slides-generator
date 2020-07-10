@@ -70,6 +70,10 @@ export class SlideService {
             // deal with slide being deleted while open in editor (i.e. set on missing slide)
         }
         this.slides[index].slideImage = base64image;
+        // update current slide if it's changed
+        if (id == this.currentSlideId) {
+            this.currentSlideId = id; // setting it again triggers the setter to update.
+        }
     }
 
     addSlide(): ISlide {
