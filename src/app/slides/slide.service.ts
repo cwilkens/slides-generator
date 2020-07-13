@@ -85,6 +85,12 @@ export class SlideService {
         return this.slides[this.slides.length-1];
     }
 
+    moveSlide(previousIndex: number, newIndex: number) {
+        // bounds check the indices
+        const slideToMove: ISlide = this.slides.splice(previousIndex, 1)[0];
+        this.slides.splice(newIndex, 0, slideToMove);
+    }
+
     insertSlide(index: number) {
         this.slides.splice(index, 0, {
             id: Symbol(),

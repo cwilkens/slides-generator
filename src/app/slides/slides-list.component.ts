@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ISlide } from './slides';
 import { SlideService } from './slide.service';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'slides-list',
@@ -33,5 +34,11 @@ export class SlidesListComponent implements OnInit {
 
   selectSlide(slide: ISlide): void {
     this.slideService.setCurrentSlide(slide.id);
+  }
+
+  // type is the actual html content, or cdkDropListData if set 
+  onDropListDropped(event: CdkDragDrop<HTMLElement>) {
+    this.slideService.moveSlide(event.previousIndex, event.currentIndex);
+    // reorder slides
   }
 }

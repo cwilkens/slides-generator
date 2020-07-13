@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,7 +23,8 @@ import { SlidesTextComponent } from './slides/slides-text.component';
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

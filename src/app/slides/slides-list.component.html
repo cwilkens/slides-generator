@@ -1,6 +1,6 @@
-<div style="padding:8px;">
+<div cdkDropList (cdkDropListDropped)='onDropListDropped($event)' style="padding:8px;">
     <!-- todo: single source this with slide-editor -->
-    <svg *ngFor="let slide of slides" class="slide" (click)='selectSlide(slide)'
+    <svg cdkDrag *ngFor="let slide of slides" class="slide" (click)='selectSlide(slide)'
     [ngClass]="currentSlideId == slide.id ? 'selected' : ''"
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
         viewBox="0 0 1920 1080">
