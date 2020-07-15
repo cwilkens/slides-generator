@@ -1,0 +1,15 @@
+:host {
+    display: block;
+}
+
+svg {
+    display: block;
+    /* overwrite the ngx-dropzone styles */
+    border: unset;
+    border-radius: 0px;
+    height: auto;
+}
+
+svg.ngx-dz-hovered {
+    border: unset;
+}

@@ -10,13 +10,15 @@ import { AppComponent } from './app.component';
 import { SlideEditorComponent } from './slides/slide-editor.component';
 import { SlidesListComponent } from './slides/slides-list.component';
 import { SlidesTextComponent } from './slides/slides-text.component';
+import { SlideComponent } from './slide/slide.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SlideEditorComponent,
     SlidesListComponent,
-    SlidesTextComponent
+    SlidesTextComponent,
+    SlideComponent
   ],
   imports: [
     BrowserModule,

@@ -39,6 +39,5 @@ export class SlidesListComponent implements OnInit {
   // type is the actual html content, or cdkDropListData if set 
   onDropListDropped(event: CdkDragDrop<HTMLElement>) {
     this.slideService.moveSlide(event.previousIndex, event.currentIndex);
-    // reorder slides
   }
 }

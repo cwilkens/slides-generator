@@ -9,26 +9,11 @@
             <p class="level-item">Slide text:</p>
         </div>
         <div class="level-item">
-            <input class="input" type="text" id="slideText" [(ngModel)]='slideText'>
+            <input class="input" type="text" [(ngModel)]='currentSlide.slideText'>
         </div>
     </div>
 </nav>
 
 <div class="slideWrapper">
-    <svg #drop id="editingSlide" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-    viewBox="0 0 1920 1080"
-    (drop)="onDrop($event, currentSlideId)"
-    (paste)="onPaste($event, currentSlideId)"
-    ngx-dropzone [disableClick]='true' (change)="onFileAdded($event, currentSlideId)">
-        <text x="1920" y="0">hidden text</text>
-        <style>
-            .header { font: normal 96px sans-serif; fill: rgb(240, 240, 240); }
-        </style>
-        <rect x="0" y="0" width="1920" height="1080" style="fill:rgb(255, 255, 255);stroke-width:0;" />
-        <image x="0" y="0" width="1920" height="1080" attr.href="{{slideImage}}" preserveAspectRatio="xMidYMid slice"/>
-        <rect x="0" y="800" width="1920" height="200" style="fill:rgb(77, 77, 77);stroke-width:0;" />
-        <line x1="0" y1="830" x2="1920" y2="830" style="stroke-width:2;stroke:rgb(131, 131, 131);" />
-        <line x1="190" y1="800" x2="190" y2="1000" style="stroke-width:2;stroke:rgb(131, 131, 131);" />
-        <text x="220" y="940" class="header">{{slideText}}</text>
-    </svg>
+    <app-slide [slide]="currentSlide" #drop class="editingSlide"></app-slide>
 </div>
