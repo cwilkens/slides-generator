@@ -12,19 +12,9 @@ jobs:
       uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
       with:
         persist-credentials: false
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - name: Build
-      run: |
-         cd slides-server
-         npm install
-         npm run build
-         cp Procfile build/Procfile
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: heroku
-        FOLDER: slides-server/build
+        FOLDER: slides-server
