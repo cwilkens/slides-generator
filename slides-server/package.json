@@ -6,15 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
-    "start:dev": "nodemon",
+    "start:dev": "cross-env HOST=\"localhost\" PORT=80 nodemon",
     "build": "rimraf ./build && tsc",
     "start": "npm run build && node build/server.js"
   },
   "dependencies": {
+    "@types/http-proxy": "^1.17.4",
     "http-proxy": "^1.18.1"
   },
   "devDependencies": {
     "@types/node": "^14.0.23",
+    "cross-env": "^7.0.2",
     "nodemon": "^2.0.4",
     "rimraf": "^3.0.2",
     "ts-node": "^8.10.2",
