@@ -25,7 +25,7 @@ export class SlideComponent implements OnInit {
     if (event.dataTransfer.items && event.dataTransfer.items[0].kind == "string") {
       event.dataTransfer.items[0].getAsString((url: string) => {
         const xhr = new XMLHttpRequest();
-        xhr.open('get', "https://cors-anywhere.herokuapp.com/"+url, true);
+        xhr.open('get', "https://instant-slides.herokuapp.com/proxy/"+url, true);
 
         xhr.responseType = 'blob';
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
