@@ -17,3 +17,9 @@
 <div class="slideWrapper">
     <app-slide [slide]="currentSlide" #drop class="editingSlide"></app-slide>
 </div>
+
+<div class="columns">
+    <div class="column is-one-third" *ngFor="let thumbnail of thumbnails">
+        <img class="thumbnail" src="{{thumbnail}}" />
+    </div>
+</div>

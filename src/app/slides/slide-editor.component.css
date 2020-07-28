@@ -6,5 +6,10 @@
 
 .editingSlide {
     border: 1px solid #000000;
-    
+}
+
+.thumbnail {
+    padding: 8px;
+    padding-top: 16px;
+    display: inline-block;
 }

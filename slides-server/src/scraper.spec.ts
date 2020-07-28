@@ -16,6 +16,24 @@ describe('Scraper unit tests', () => {
             expect(page).to.be.not.empty;
         }).timeout(5000);
 
+        it('should scrape thumbnails from search', async () => {
+            const search = "cats";
+            const imageCount = 10;
+            const images = await scraper.getThumbnailsForSearch(search, imageCount);
+            expect(images.length).to.be.equal(imageCount);
+        }).timeout(5000);
+
+        it('should turn thumbnails into a text block', async () => {
+            const search = "cats";
+            const imageCount = 10;
+            const images = await scraper.getThumbnailsForSearch(search, imageCount);
+            expect(images.length).to.be.equal(imageCount);
+            const textBlock = images.join('\n');
+            expect(textBlock).to.be.not.empty;
+            expect(textBlock.split('\n').length).to.be.equal(imageCount);
+        }).timeout(5000);
+        
+
         after(async () => {
             await scraper.quit();
         });

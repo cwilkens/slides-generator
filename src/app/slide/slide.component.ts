@@ -24,6 +24,13 @@ export class SlideComponent implements OnInit {
   onDrop(event: any, currentSlideId: symbol) {
     if (event.dataTransfer.items && event.dataTransfer.items[0].kind == "string") {
       event.dataTransfer.items[0].getAsString((url: string) => {
+        // this allows drag from the bottom thumbnails (which are low-res)
+        // eventually find a workaround for this
+        if (url.startsWith("data:image/")) {
+          this.slideService.setSlideImage(currentSlideId, url);
+          this.application.tick();
+          return;
+        }
         const xhr = new XMLHttpRequest();
         xhr.open('get', "https://instant-slides.herokuapp.com/proxy/"+url, true);
 
