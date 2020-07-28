@@ -2,6 +2,8 @@ import * as http from "http";
 import * as https from "https";
 import * as httpProxy from "http-proxy";
 import * as url from "url";
+import * as querystring from "querystring";
+import { Scraper } from './scraper';
 
 const debug = require('debug');
 const log = debug('server:base');
@@ -19,7 +21,7 @@ function proxyRequest(req: http.IncomingMessage, res: http.ServerResponse, proxy
         return;
     }
     log("proxy target host: "+parsedUrl.host);
-    log("destination: "+destination);
+    log("proxy destination: "+destination);
     let proxyOptions: httpProxy.ServerOptions = {
         changeOrigin: false,
         prependPath: false,
@@ -36,11 +38,24 @@ function proxyRequest(req: http.IncomingMessage, res: http.ServerResponse, proxy
     }
 }
 
-function getHandler(proxy: httpProxy): http.RequestListener {
+function getHandler(proxy: httpProxy, scraper: Scraper): http.RequestListener {
 
     return function(req, res) {
 
-        log(req.url);
+        log(req.method + " " + req.url);
+        if (req.method === 'OPTIONS') {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            if (req.headers['access-control-request-headers']) {
+                res.setHeader('access-control-allow-headers', req.headers['access-control-request-headers']);
+            }
+            if (req.headers['access-control-request-method']) {
+                res.setHeader('access-control-allow-methods', req.headers['access-control-request-method']);
+            }
+            res.writeHead(200);
+            res.end();
+            return;
+        }
+        res.setHeader("Access-Control-Allow-Origin", "*");
         if (req.url?.slice(1).startsWith("favicon.ico")) {
             res.writeHead(404);
             res.end();
@@ -52,18 +67,28 @@ function getHandler(proxy: httpProxy): http.RequestListener {
             return;
         }
         if (req.url?.slice(1).startsWith(SEARCH_PATH)) {
-            const search: string = req.url?.slice(SEARCH_PATH.length+1);
-            // search stuff
+            // get query values
+            const query = querystring.parse(req.url?.split("?")[1]);
+            const searchText: string = (query.search || "").toString();
+            if (searchText && /\S/.test(searchText)) {
+                let images = scraper.getThumbnailsForSearch(searchText, 3);
+                images.then((value) => {
+                    res.writeHead(200, { 'Content-Type': 'text/plain', 'Connection': 'close' });
+                    res.write(value.join("\n"));
+                    res.end();
+                });
+                return;
+            }
         }
         res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.write('Server is working! Headers:' + '\n' + JSON.stringify(req.headers, null, 2));
         res.end();
         return;
     }
 }
 
 let proxy = httpProxy.createServer();
-let requestHandler = getHandler(proxy);
+let scraper = new Scraper();
+let requestHandler = getHandler(proxy, scraper);
 
 // Listen for the error event on proxy.
 proxy.on('error', function (err, req, res) {
@@ -88,10 +113,11 @@ proxy.on('proxyRes', function (proxyRes, req, res) {
         proxyRes.headers['access-control-allow-headers'] = req.headers['access-control-request-headers'];
         delete req.headers['access-control-request-headers'];
     }
+    log("proxy response headers: "+JSON.stringify(proxyRes.headers, null, 2));
 });
 
 export function createServer(): http.Server {
-    var server: http.Server;
+    let server: http.Server;
     if (SSL) {
         server = https.createServer(requestHandler);
     } else {
