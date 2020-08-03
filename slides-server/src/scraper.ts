@@ -1,4 +1,4 @@
-import { Browser, Builder, ThenableWebDriver, until, By } from 'selenium-webdriver';
+import { Browser, Builder, ThenableWebDriver, until, By, WebElement, Condition } from 'selenium-webdriver';
 import { Options, ServiceBuilder } from 'selenium-webdriver/chrome';
 import * as chromedriver from 'chromedriver';
 
@@ -45,7 +45,7 @@ export class Scraper {
      * @param maxImages maximum number of thumbnails to return (or total on page)
      */
     async getThumbnailsForSearch(search: string, maxImages: number): Promise<string[]> {
-        let url = "https://www.google.com/search?q=" + search + "&source=lnms&tbm=isch";
+        let url = "https://www.google.com/search?q=" + search + "&source=lnms&tbm=isch&tbs=isz%3Al";
         try {
             // open page
             await this.driver.get(url);
@@ -56,6 +56,36 @@ export class Scraper {
         } catch (ex) {
             return Promise.reject(ex);
         }
+    }
+
+    /**
+     * Get high-res image of single image in search results
+     * @param search search string to find large images of.
+     * @param imageIndex index into image search result to get high-res image of
+     */
+    async getSpecifiedImageUrlFromSearch(search: string, imageIndex: number): Promise<string> {
+        let url = "https://www.google.com/search?q=" + search + "&source=lnms&tbm=isch&tbs=isz%3Al";
+        try {
+            // open page
+            await this.driver.get(url);
+            await this.driver.wait(until.titleContains("Google Search"));
+            const images = await this.driver.findElements(By.className("rg_i"));
+            await images[imageIndex].click();
+
+            const bigImage = await this.driver.wait(until.elementLocated(By.css("#islsp c-wiz[data-a] .n3VNCb")), 4000);
+            await this.driver.wait(this.SourceIsUrl(bigImage), 2000);
+            return bigImage.getAttribute("src");
+        } catch (ex) {
+            return Promise.reject(ex);
+        }
+    }
+
+    private SourceIsUrl(element: WebElement): Condition<Promise<Boolean>> {
+        return new Condition('for element src to be url', (driver) => {
+            return element.getAttribute("src").then((value) => {
+                return !(value.startsWith("data:image"));
+            });
+        });
     }
 
     async quit() {

@@ -19,7 +19,7 @@
 </div>
 
 <div class="columns">
-    <div class="column is-one-third" *ngFor="let thumbnail of thumbnails">
+    <div class="column is-one-third" *ngFor="let thumbnail of thumbnails; index as i" (click)="onClickThumbnail(i)">
         <img class="thumbnail" src="{{thumbnail}}" />
     </div>
 </div>

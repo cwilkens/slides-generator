@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ApplicationRef } from '@angular/core';
 import { ISlide } from './slides';
 import { SlideService } from './slide.service';
 
@@ -11,8 +11,7 @@ export class SlideEditorComponent implements OnInit {
   currentSlide: ISlide;
   thumbnails: string[] = ["", "", ""];
 
-  constructor(private slideService: SlideService) { 
-  }
+  constructor(private slideService: SlideService, private application: ApplicationRef) { }
 
   ngOnInit() {
     // get current slide Subject from service
@@ -31,17 +30,56 @@ export class SlideEditorComponent implements OnInit {
       const xhr = new XMLHttpRequest();
       xhr.open('get', "https://instant-slides.herokuapp.com/search/?search="+searchText, true);
       
-      console.log("searching: "+searchText);
       xhr.responseType = 'text';
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
       const editor = this;
       xhr.onload = function() {
-        console.log("receiving: "+searchText);
         const data: string = this.response.toString();
         const images = data.split('\n');
         editor.thumbnails = images;
       };
       xhr.send();
+    });
+  }
+
+  onClickThumbnail(index: number) {
+    const slideId = this.currentSlide.id;
+    const searchText = encodeURIComponent(this.currentSlide.slideText);
+    const xhr = new XMLHttpRequest();
+    xhr.open('get', "https://instant-slides.herokuapp.com/search/?search="+searchText+"&i="+index, true);
+    
+    xhr.responseType = 'blob';
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    const editor = this;
+    xhr.onload = function() {
+      editor.readFile(this.response).then(fileContents => {
+        editor.slideService.setSlideImage(slideId, fileContents.toString());
+        editor.application.tick();
+      });
+    };
+    xhr.send();
+  }
+
+  // todo: dedup this (also in slide component)
+  private async readFile(file: File | Blob): Promise<string | ArrayBuffer> {
+    return new Promise<string | ArrayBuffer>((resolve, reject) => {
+      const reader = new FileReader();
+  
+      reader.onload = e => {
+        return resolve((e.target as FileReader).result);
+      };
+  
+      reader.onerror = e => {
+        console.error(`FileReader failed on file ${file}.`);
+        return reject(null);
+      };
+  
+      if (!file) {
+        console.error('No file to read.');
+        return reject(null);
+      }
+  
+      reader.readAsDataURL(file);
     });
   }
 }
