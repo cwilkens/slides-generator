@@ -71,12 +71,20 @@ function getHandler(proxy: httpProxy, scraper: Scraper): http.RequestListener {
             const query = querystring.parse(req.url?.split("?")[1]);
             const searchText: string = (query.search || "").toString();
             if (searchText && /\S/.test(searchText)) {
-                let images = scraper.getThumbnailsForSearch(searchText, 3);
-                images.then((value) => {
-                    res.writeHead(200, { 'Content-Type': 'text/plain', 'Connection': 'close' });
-                    res.write(value.join("\n"));
-                    res.end();
-                });
+                if (query.i === undefined) {
+                    let images = scraper.getThumbnailsForSearch(searchText, 3);
+                    images.then((base64Images) => {
+                        res.writeHead(200, { 'Content-Type': 'text/plain', 'Connection': 'close' });
+                        res.write(base64Images.join("\n"));
+                        res.end();
+                    });
+                } else {
+                    let bigImage = scraper.getSpecifiedImageUrlFromSearch(searchText, +query.i);
+                    bigImage.then((imageUrl) => {
+                        // returns URL of high-res image, so proxy it
+                        proxyRequest(req, res, proxy, imageUrl);
+                    });
+                }
                 return;
             }
         }

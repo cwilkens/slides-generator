@@ -32,6 +32,13 @@ describe('Scraper unit tests', () => {
             expect(textBlock).to.be.not.empty;
             expect(textBlock.split('\n').length).to.be.equal(imageCount);
         }).timeout(5000);
+
+        it('should get a large image\'s url from search', async () => {
+            const search = "cats";
+            const imageIndex = 3;
+            const imageUrl = await scraper.getSpecifiedImageUrlFromSearch(search, imageIndex);
+            expect(imageUrl.slice(0, 4)).to.be.equal("http");
+        }).timeout(5000);
         
 
         after(async () => {
